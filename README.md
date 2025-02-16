@@ -6,9 +6,9 @@ Name: NAGARAJ PRAKASH SHETTY
 -
 College: Sahyadri College of Engineering and Management, Adyar, Mangaluru.
 -
-Email ID: 
+Email ID: sharatshetty2510@gmail.com / nagaraj.ec22@sahyadri.edu.in
 -
-LinkedIn: 
+LinkedIn: https://www.linkedin.com/in/nagaraj-prakash-shetty-3264b4247/
 -
 <details>
 <summary>TASK1:Development of C Based LAB</summary>
