@@ -472,7 +472,7 @@ void writeNibble(uint8_t nibble);
 
 </details>
 <details>
-<summary>TASK6</summary>
+<summary>TASK6: WORKING Principle of the Object Detection System Using Ultrasonic Sensor with I2C LCD Display</summary>
 
 
 
