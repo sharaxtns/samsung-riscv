@@ -207,6 +207,11 @@ Register (rd): a0 = 01010
 <details>
 <summary>TASK4:Functional Simulation of RISC-V Core</summary>
 </summary>
+<img width="959" alt="Image" src="https://github.com/user-attachments/assets/679df146-7745-4ddc-bc5c-e1e737075164" />
+<img width="959" alt="Image" src="https://github.com/user-attachments/assets/bc06334a-cdec-4442-8114-ee6838431ac0" />
+<img width="959" alt="Image" src="https://github.com/user-attachments/assets/b7ff8b2d-7a42-4519-a6ca-78b2be14b2f8" />
+<img width="959" alt="Image" src="https://github.com/user-attachments/assets/0317a1c4-f6a3-4f00-88d1-537735299021" />
+<img width="959" alt="Image" src="https://github.com/user-attachments/assets/32aa419f-2c48-4269-adea-19b571c65322" />
 <br>
 Steps to perform functional simulation of RISCV
 
