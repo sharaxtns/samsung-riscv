@@ -27,14 +27,8 @@ src="https://github.com/user-attachments/assets/0b18ba5d-c4c7-4be9-97a9-cc67e913
 </details>
 <details>
 <summary>TASK2:Simulation with Spike</summary>
-<img 
-src="https://github.com/user-attachments/assets/3d4b94d7-228a-4194-bdac-4de226cb30d4" alt="Task Icon"/>
-  <img
-src="https://github.com/user-attachments/assets/ca35703a-e970-4f79-8563-3136212948a3" alt="Task Icon"/>
-<img
-src="https://github.com/user-attachments/assets/c932e8ef-bf9a-474b-a709-53bfc0aeee55" alt="Task Icon"/>
-<img
-src="https://github.com/user-attachments/assets/6e18d0c5-f06c-4410-b013-d62eafa4aceb" alt="Task Icon"/>
+<img width="959" alt="Image" src="https://github.com/user-attachments/assets/674b87c3-8b8f-496c-9503-153806811360" alt="Task Icon"/>
+<img width="959" alt="Image" src="https://github.com/user-attachments/assets/b276fe30-0f9b-4d93-b41f-aa8207b0adfe" alt="Task Icon"/>
 </details>
 
 <details>
