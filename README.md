@@ -470,7 +470,7 @@ void sendI2C(uint8_t data, uint8_t mode);
 
 void writeNibble(uint8_t nibble);
 
-
+<details>
 <summary>TASK 6</summary>
 # TASK-6
 
@@ -542,3 +542,4 @@ Distance Sensing: Providing distance measurements for various automation tasks.
 
 
 https://github.com/sharaxtns/samsung-riscv/issues/1#issue-2873261340
+</details>
