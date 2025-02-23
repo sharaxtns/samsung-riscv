@@ -470,10 +470,9 @@ void sendI2C(uint8_t data, uint8_t mode);
 
 void writeNibble(uint8_t nibble);
 
+</details>
 <details>
-<summary>TASK 6</summary>
-# TASK-6
-
+<summary>TASK6</summary>
 
 
 
