@@ -231,7 +231,7 @@ Register (rd): a0 = 01010
 The Object Detector project integrates an ultrasonic sensor with the CH32V003 RISC-V processor to detect nearby objects. 
  An ultrasonic sensor measures the distance to an object by emitting ultrasonic waves and calculating the time it takes for the waves to return after bouncing off the object. This time is then converted into a distance measurement.The I2C LCD display allows for efficient communication between the microcontroller and the display, enabling the system to present the measured distance or object detection status.
 
-![Screenshot 2025-02-16 165033](https://github.com/user-attachments/assets/e1e6dfbd-3ea4-4152-bbd3-586de31eb6fe)
+![Image](https://github.com/user-attachments/assets/1630b509-c9f3-43b5-8b79-4c10d60346dc)
 
 # Components Required:
 
@@ -280,7 +280,8 @@ SDA: Connect to GPIO pin to PC1
 SCL: Connect to GPIO pin to PC2
 
 # Connected Circuit
-![WhatsApp Image 2025-02-17 at 9 23 47 PM](https://github.com/user-attachments/assets/2b392dbe-5ae1-4cc0-8948-a8c1445bfa22)
+
+![Image](https://github.com/user-attachments/assets/0ee34e70-48d2-428b-b5e2-f1e1feca2b1f)
 
 # CODE
 
