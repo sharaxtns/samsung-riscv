@@ -67,4 +67,4 @@ Distance Sensing: Providing distance measurements for various automation tasks.
 
 
 
-(https://github.com/sharaxtns/samsung-riscv/issues/1#issue-2873261340)
+[https://github.com/sharaxtns/samsung-riscv/issues/1#issue-2873261340]
