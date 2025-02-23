@@ -219,193 +219,253 @@ Register (rd): a0 = 01010
 <details>
 <summary>TASK5:Project overview-circuit diagram</summary>
 </summary>
-1.Pinout Diagram of Obstacle-Avoiding Robot
-<img 
-src="https://github.com/user-attachments/assets/0828d309-aa0c-45bc-8cce-038ce368d9bf" alt="Task Icon"/>
-<img
-
-2.Components Required:
-
-*VSD Squadronmini CH32V00x RISC V processor
-
- *L298N Motor Driver
-
- *IR Sensor
-
- *Motors (2 DC motors)
-
- *Power Supply (12V)
-
-Pin Connections:
-
- IR Sensor
-| Pin | CH32V00x |
-|-----|----------|
-| VCC | 5V       |
-| GND | GND      |
-| OUT | PD3      |
-
- L298N Motor Driver
-| Pin  | CH32V00x |
-|------|----------|
-| IN1  | PD1      |
-| IN2  | PD2      |
-| IN3  | PD4      |
-| IN4  | PD7      |
-| VCC  | 5V       |
-| GND  | GND      |
-
----
-
-![PIN CONNECTION DETAILS](https://github.com/user-attachments/assets/9ee64c69-d9b5-4627-9767-a5db0eb3a6ba)
+# TASK-5
+# PROJECT :- OBJECT DISTANCE DETECTOR & DISPLAY IT ON I2C LCD
 
 
-3.Blinking Led Test code simulation.
 
-https://github.com/user-attachments/assets/c9d04c81-f2c8-463e-9b4c-9b2137d9df15
-</details>
 
-<details>
-<summary>TASK6:Project Application</summary>
-</summary>
-1.Obstacle-Avoiding Robot Application video.
 
-https://github.com/user-attachments/assets/11397a90-0576-4397-b83f-7a6ea71d9968
+# OVERVIEW
 
-2.Obstacle-Avoiding Robot Code.
-```
+The Object Detector project integrates an ultrasonic sensor with the CH32V003 RISC-V processor to detect nearby objects. 
+ An ultrasonic sensor measures the distance to an object by emitting ultrasonic waves and calculating the time it takes for the waves to return after bouncing off the object. This time is then converted into a distance measurement.The I2C LCD display allows for efficient communication between the microcontroller and the display, enabling the system to present the measured distance or object detection status.
+
+![Screenshot 2025-02-16 165033](https://github.com/user-attachments/assets/e1e6dfbd-3ea4-4152-bbd3-586de31eb6fe)
+
+# Components Required:
+
+Microcontroller: CH32V003F4U6
+
+
+Ultrasonic Sensor: HC-SR04
+
+I2C LCD Display: 16x2
+
+Jumper Wires
+
+Breadboard
+
+
+# HARDWARE CONNECTION
+
+# Pin Connections:
+
+# Ultrasonic Sensor (HC-SR04) Connections:
+
+VCC: Connect to 5V power supply on VSDSquadron Mini
+
+
+GND: Connect to ground on VSDSquadron Mini
+
+
+TRIG PIN to PA1 on VSDSquadron Mini
+
+
+ECHO PIN to PA2 on VSDSquadron Mini
+
+
+
+# I2C LCD Display Connections:
+
+VCC: Connect to 5V power supply
+
+
+GND: Connect to ground
+
+
+SDA: Connect to GPIO pin to PC1
+
+
+SCL: Connect to GPIO pin to PC2
+
+# Connected Circuit
+![WhatsApp Image 2025-02-17 at 9 23 47 PM](https://github.com/user-attachments/assets/2b392dbe-5ae1-4cc0-8948-a8c1445bfa22)
+
+# CODE
+
 #include <ch32v00x.h>
+
 #include <debug.h>
 
-// Define motor control pins
-#define IN1_PIN GPIO_Pin_1
-#define IN2_PIN GPIO_Pin_2
-#define IN3_PIN GPIO_Pin_4
-#define IN4_PIN GPIO_Pin_7
-#define ENA_PIN GPIO_Pin_5 // Assuming ENA is connected to PA0 (PWM), not necessary
-#define ENB_PIN GPIO_Pin_6 // Assuming ENB is connected to PA1 (PWM), not necessary
+#include <stdio.h>
 
-// Define IR sensor pin
-#define PIR_PIN GPIO_Pin_3
+#define I2CLCD_H
 
-void Motor_Init(void) {
-    GPIO_InitTypeDef GPIO_InitStructure = {0};
+#include "i2clcd.h"
 
-    // Enable clocks for GPIO ports
+
+#define LCD_ADDRESS 0x27
+
+#define TRIG_PIN  GPIO_Pin_1  // PA1 - Trigger
+
+#define ECHO_PIN  GPIO_Pin_2  // PA2 - Echo
+
+#define GPIO_Pin_9  (1 << 9)
+
+#define GPIO_Pin_10 (1 << 10)
+
+
+
+// Function prototypes
+void Ultrasonic_Init(void);
+
+uint32_t Measure_Distance();
+
+void DelayUs(uint32_t us);
+
+void DelayMs(uint32_t ms);
+
+void Ultrasonic_Init(void) {
+
+    GPIO_InitTypeDef GPIO_InitStruct;
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+
+    // Configure TRIG pin as Output
     
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOA, ENABLE);
-
-    // Configure motor control pins as outputs
+    GPIO_InitStruct.GPIO_Pin = TRIG_PIN;
     
-    GPIO_InitStructure.GPIO_Pin = IN1_PIN | IN2_PIN | IN3_PIN | IN4_PIN;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
+    
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    
+    GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    // Configure ENA and ENB pins as alternate function (PWM output)
-    GPIO_InitStructure.GPIO_Pin = ENA_PIN | ENB_PIN;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    // Initialize PWM for ENA and ENB
-    // Assuming TIM2 is used for PWM on PA0 and PA1
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-
-    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = {0};
-    TIM_OCInitTypeDef TIM_OCInitStructure = {0};
-
-    TIM_TimeBaseStructure.TIM_Period = 999;
-    TIM_TimeBaseStructure.TIM_Prescaler = 47;
-    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-    TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
-
-    TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-    TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-    TIM_OCInitStructure.TIM_Pulse = 500; // 50% duty cycle
-    TIM_OC1Init(TIM2, &TIM_OCInitStructure);
-    TIM_OC2Init(TIM2, &TIM_OCInitStructure);
-
-    TIM_Cmd(TIM2, ENABLE);
+    // Configure ECHO pin as Input
+    
+    GPIO_InitStruct.GPIO_Pin = ECHO_PIN;
+    
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    
+    GPIO_Init(GPIOA, &GPIO_InitStruct);
 }
 
-void PIR_Init(void) {
-    GPIO_InitTypeDef GPIO_InitStructure = {0};
+uint32_t Measure_Distance() {
+    uint32_t time, distance;
 
-    // Enable clock for GPIOD
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+    // Send Trigger Pulse
+    GPIO_ResetBits(GPIOA, TRIG_PIN);
+    DelayUs(2);
+    GPIO_SetBits(GPIOA, TRIG_PIN);
+    DelayUs(10);
+    GPIO_ResetBits(GPIOA, TRIG_PIN);
 
-    // Configure PIR sensor pin as input pull-up
-    GPIO_InitStructure.GPIO_Pin = PIR_PIN;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
+    // Wait for Echo to go HIGH
+    while (GPIO_ReadInputDataBit(GPIOA, ECHO_PIN) == 0);
+    
+    // Measure pulse duration
+    time = 0;
+    while (GPIO_ReadInputDataBit(GPIOA, ECHO_PIN) == 1) {
+        time++;
+        DelayUs(1);
+    }
+
+    // Convert to distance (cm)
+    distance = (time * 0.0343) / 2;
+    return distance;
 }
 
-void Move_Forward(void) {
-    GPIO_SetBits(GPIOD, IN1_PIN);
-    GPIO_ResetBits(GPIOD, IN2_PIN);
-    GPIO_SetBits(GPIOD, IN3_PIN);
-    GPIO_ResetBits(GPIOD, IN4_PIN);
+void USART1_Init(void) {
+
+    GPIO_InitTypeDef GPIO_InitStruct;
+    
+    USART_InitTypeDef USART_InitStruct;
+    
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_USART1, ENABLE);
+
+    // Configure PA9 (TX) as alternate function push-pull
+    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_9;
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    // Configure PA10 (RX) as input floating
+    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_10;
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    USART_InitStruct.USART_BaudRate = 115200;
+    USART_InitStruct.USART_WordLength = USART_WordLength_8b;
+    USART_InitStruct.USART_StopBits = USART_StopBits_1;
+    USART_InitStruct.USART_Parity = USART_Parity_No;
+    USART_InitStruct.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+    USART_InitStruct.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+    USART_Init(USART1, &USART_InitStruct);
+    
+    USART_Cmd(USART1, ENABLE);
 }
 
-void Move_Backward(void) {
-    GPIO_ResetBits(GPIOD, IN1_PIN);
-    GPIO_SetBits(GPIOD, IN2_PIN);
-    GPIO_ResetBits(GPIOD, IN3_PIN);
-    GPIO_SetBits(GPIOD, IN4_PIN);
-}
+void USART1_SendString(char *str) {
 
-void Turn_Left(void) {
-    GPIO_ResetBits(GPIOD, IN1_PIN);
-    GPIO_SetBits(GPIOD, IN2_PIN);
-    GPIO_SetBits(GPIOD, IN3_PIN);
-    GPIO_ResetBits(GPIOD, IN4_PIN);
-}
-
-void Turn_Right(void) {
-    GPIO_SetBits(GPIOD, IN1_PIN);
-    GPIO_ResetBits(GPIOD, IN2_PIN);
-    GPIO_ResetBits(GPIOD, IN3_PIN);
-    GPIO_SetBits(GPIOD, IN4_PIN);
-}
-
-void Stop(void) {
-    GPIO_ResetBits(GPIOD, IN1_PIN | IN2_PIN | IN3_PIN | IN4_PIN);
+    while (*str) {
+    
+        USART_SendData(USART1, *str++);
+        
+        while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+    }
 }
 
 int main(void) {
-    SystemCoreClockUpdate();
-    Delay_Init();
-    Motor_Init();
-    PIR_Init();
+    SystemInit();
+    Ultrasonic_Init();
+    USART1_Init();
+    I2C_LCD_Init();
+
+    LCD_Clear();
+    LCD_SetCursor(0, 0);
+    LCD_Print("Ultrasonic Sensor");
 
     while (1) {
-        uint8_t pir_status = GPIO_ReadInputDataBit(GPIOD, PIR_PIN);
+        uint32_t distance = Measure_Distance();
+        
+        char buffer[20];
+        sprintf(buffer, "Distance: %d cm", distance);
 
-        if (pir_status == 0) {
-            // Obstacle detected
-            Stop();
-            Delay_Ms(500);
-            Move_Backward();
-            Delay_Ms(1000);
-            Turn_Left();
-            Delay_Ms(500);
-            Stop();
-            Delay_Ms(500);
-        } else {
-            // No obstacle
-            Move_Forward();
-        }
+        // Print to LCD
+        LCD_Clear();
+        LCD_SetCursor(0, 0);
+        LCD_Print("Distance:");
+        LCD_SetCursor(0, 1);
+        LCD_Print(buffer);
 
-        Delay_Ms(100);
+        // Print to Serial (for debugging)
+        USART1_SendString(buffer);
+        USART1_SendString("\n");
+
+        DelayMs(500);
     }
 }
 
-void NMI_Handler(void) {
+// Microsecond delay function
+
+void DelayUs(uint32_t us) {
+
+    for (volatile uint32_t i = 0; i < us * 10; i++);
 }
 
-void HardFault_Handler(void) {
-    while (1) {
-    }
+// Millisecond delay function
+
+void DelayMs(uint32_t ms) {
+
+    for (volatile uint32_t i = 0; i < ms * 10000; i++);
 }
+
+
+// Function Declarations
+
+void lcdInit();
+
+void setCursor(uint8_t col, uint8_t row);
+
+void printLCD(const char* str);
+
+void clear(); // Add this line for clear function
+
+// Internal Functions
+
+void lcdCommand(uint8_t cmd);
+
+void sendI2C(uint8_t data, uint8_t mode);
+
+void writeNibble(uint8_t nibble);
