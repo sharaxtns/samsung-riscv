@@ -33,8 +33,9 @@ src="https://github.com/user-attachments/assets/0b18ba5d-c4c7-4be9-97a9-cc67e913
 
 <details>
 <summary>TASK3:Identification of RISCV instructions</summary>
-  <img
-src="https://github.com/user-attachments/assets/e82da314-af58-47fb-b68a-eb1a51822319" alt="Task Icon"/>
+<img width="959" alt="Image" src="https://github.com/user-attachments/assets/c5fd70c3-389d-49f2-834d-a5a0b0ea567d" />
+<img width="959" alt="Image" src="https://github.com/user-attachments/assets/f1525077-2f06-452c-ab06-1092f773109a" />
+<img width="959" alt="Image" src="https://github.com/user-attachments/assets/ce7c349d-6ccb-4fa3-80be-6aff3ae78c5e" />
 <summary>1. addi sp, sp, -32</summary>
 
 Opcode(ADDI): 0010011  
