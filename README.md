@@ -213,79 +213,7 @@ Register (rd): a0 = 01010
 <img width="959" alt="Image" src="https://github.com/user-attachments/assets/0317a1c4-f6a3-4f00-88d1-537735299021" />
 <img width="959" alt="Image" src="https://github.com/user-attachments/assets/32aa419f-2c48-4269-adea-19b571c65322" />
 <br>
-Steps to perform functional simulation of RISCV
 
-1. Download Files:
-Download the code from the reference github repo.
-
-2. Set Up Simulation Environment:
-Install iverlog using commands:
-
-        sudo apt install iverilog
-        sudo apt install gtkwave
-
-3. To run and simulate the verilog code, enter the following command:
-
-        iverilog -o iiitb_rv32i iiitb_rv32i.v iiitb_rv32i_tb.v
-        ./iiitb_rv32i
-
-4. To see the simulation waveform in GTKWave, enter the following command:
-
-        gtkwave iiitb_rv32i.vcd
-
-32-bits instruction used in the code:
-
-![Instructions](<TASK4/instructions.png>)
-
-Analysing the Output Waveform of various instructions that we have covered in this task.
-
-1. ADD R6,R1,R2
-
-![ADD R6,R1,R2](<TASK4/add.png>)
-
-  32 bit instruction:32'h02208300
-
-2. SUB R7,R1,R2
-
-![SUB R7,R1,R2](<TASK4/sub1.png>)
-
-32 bit instruction:32'h02209380
-
-3. And R8,R1,R3
-
-![And R8,R1,R3](<TASK4/and.png>)
-
-32 bit instruction:32'h0230a400
-
-4. OR R9,R2,R5
-
-![OR R9,R2,R5](<TASK4/or.png>)
-
-32 bit instruction:32'h02513480
-
-5. XOR R10,R1,R4
-
-![XOR R10,R1,R4](<TASK4/xor.png>)
-
-32 bit instruction:32'h0240c500
-
-6. SLT R11,R2,R4
-
-![SLT R11,R2,R4](<TASK4/slt.png>)
-
-32 bit instruction:32'h02415580
-
-7. ADDI R12,R4,5
-
-![ADDI R12,R4,5](<TASK4/addi.png>)
-
-32 bit instruction:32'h00520600
-
-8. BEQ R0,R0,15
-
-![BEQ R0,R0,15](<TASK4/beq.png>)
-
-32 bit instruction:32'h00f00002
 
 </details>
 <details>
