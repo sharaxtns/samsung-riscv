@@ -13,13 +13,17 @@ LinkedIn: https://www.linkedin.com/in/nagaraj-prakash-shetty-3264b4247/
 <details>
 <summary>TASK1:Development of C Based LAB</summary>
 <img 
-src="https://github.com/user-attachments/assets/987c79c7-2625-4d94-bfee-caa7b83a0f86" alt="Task Icon"/>
+src="https://github.com/user-attachments/assets/dea48677-2dc9-480e-a22c-50e92683ba22" alt="Task Icon"/>
   <img
-src="https://github.com/user-attachments/assets/7c267db8-2335-45b8-8d9b-0cce32154878" alt="Task Icon"/>
+src="https://github.com/user-attachments/assets/96216554-d5e8-486f-a3db-1f23befaa070" alt="Task Icon"/>
 <img
-src="https://github.com/user-attachments/assets/137dd367-5b26-44bf-90b4-cf600cbdb893" alt="Task Icon"/>
+src="https://github.com/user-attachments/assets/d771f6dd-07e0-4f3a-bb16-5980613bccaa" alt="Task Icon"/>
 <img
-src="https://github.com/user-attachments/assets/529e2e98-6f3b-435d-95ed-dc0c0c8dd226" alt="Task Icon"/>
+src="https://github.com/user-attachments/assets/fef6562c-a3a0-4055-948d-2adb860c053e" alt="Task Icon"/>
+  <img
+src="https://github.com/user-attachments/assets/2355abed-78e1-44e9-ba6d-f14899c60142" alt="Task Icon"/>
+  <img
+src="https://github.com/user-attachments/assets/0b18ba5d-c4c7-4be9-97a9-cc67e913bcab" alt="Task Icon"/>
 </details>
 <details>
 <summary>TASK2:Simulation with Spike</summary>
